@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application
+        xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:Script>
+         <![CDATA[
+        import mx.events.CalendarLayoutChangeEvent;
+        import mx.events.ListEvent;
+        import mx.events.PropertyChangeEvent;
+
+        [Bindable]
+        private var model:ListModel = ListModel.getInstance();
+
+
+        private var controller:Controller = Controller.getInstance();
+
+        private function useDate(event:CalendarLayoutChangeEvent):void {
+            controller.addNumber(event.currentTarget.selectedDate);
+            refreshButtonsState();
+        }
+
+        private function sortClickHandler():void {
+            Controller.getInstance().sort();
+            refreshButtonsState();
+        }
+
+        private function deleteClickHandler():void {
+            controller.removeItem(itemListLeft.selectedItem);
+            deleteButton.enabled=false;
+            refreshButtonsState();
+        }
+
+        private function clearClickHandler():void {
+            Controller.getInstance().clear();
+            refreshButtonsState();
+        }
+
+        private function refreshButtonsState():void{
+            if(controller.getItemsCount()>0){
+                clearButton.enabled=true;
+                sortButton.enabled=true;
+            }   else{
+                clearButton.enabled=false;
+                sortButton.enabled=false;
+            }
+        }
+
+        private function itemListLeftChanged(event:ListEvent):void {
+            if (itemListLeft.selectedItem == null) {
+                deleteButton.enabled = false;
+            } else {
+                deleteButton.enabled = true;
+            }
+            itemListRight.selectedItem = itemListLeft.selectedItem;
+        }
+
+        private function itemListRightChanged(event:ListEvent):void {
+            if (itemListRight.selectedItem == null) {
+                deleteButton.enabled = false;
+            } else {
+                deleteButton.enabled = true;
+            }
+            itemListLeft.selectedItem = itemListRight.selectedItem;
+        }
+
+        ]]>
+     </mx:Script>
+    <mx:HBox>
+        <mx:List id="itemListLeft" change="itemListLeftChanged(event)" dataProvider="{controller.getItems()}"/>
+        <mx:VBox>
+            <mx:DateChooser change="useDate(event)"/>
+            <mx:HBox>
+                <mx:Button id="sortButton" click="sortClickHandler()" label="Sort" enabled="false"/>
+                <mx:Button id="deleteButton" click="deleteClickHandler()" label="Delete" enabled="false"/>
+                <mx:Button id="clearButton" click="clearClickHandler()" label="Clear" enabled="false"/>
+            </mx:HBox>
+        </mx:VBox>
+
+        <mx:List id="itemListRight" change="itemListRightChanged(event)" dataProvider="{controller.getItems()}"/>
+
+    </mx:HBox>
+</mx:Application>
+
+

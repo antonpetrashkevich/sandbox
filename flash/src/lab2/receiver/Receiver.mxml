@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:VBox>
+        <mx:Label text="External data:"/>
+        <mx:TextArea id="xmlReceivedContent" width="640" height="240"></mx:TextArea>
+        <mx:Label text="String to send:"/>
+        <mx:HBox>
+            <mx:TextInput></mx:TextInput>
+            <mx:Button id="sendMessageButton" label="Send"/>
+        </mx:HBox>
+
+    </mx:VBox>
+</mx:Application>

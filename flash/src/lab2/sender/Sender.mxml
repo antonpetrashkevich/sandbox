@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<mx:Application
+        xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:VBox>
+        <mx:Label text="XML:"/>
+        <mx:TextArea id="xmlContent" width="640" height="240"></mx:TextArea>
+        <mx:HBox>
+            <mx:Label text="Square"/>
+            <mx:ComboBox></mx:ComboBox>
+            <mx:TextInput></mx:TextInput>
+            <mx:Button id="selectSquareButton" label="Select"/>
+        </mx:HBox>
+        <mx:HBox>
+            <mx:Label text="Type"/>
+            <mx:ComboBox></mx:ComboBox>
+            <mx:Button id="selectTypeButton" label="Select"/>
+        </mx:HBox>
+        <mx:Label text="Selection:"/>
+        <mx:TextArea id="XMLout" width="640" height="240"></mx:TextArea>
+        <mx:Button id="sendSelectionButton" label="Send Selection"/>
+        <mx:Label text="Text another application:"/>
+    </mx:VBox>
+
+</mx:Application>

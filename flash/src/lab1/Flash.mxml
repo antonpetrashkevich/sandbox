@@ -5,7 +5,6 @@
          <![CDATA[
         import mx.events.CalendarLayoutChangeEvent;
         import mx.events.ListEvent;
-        import mx.events.PropertyChangeEvent;
 
         [Bindable]
         private var model:ListModel = ListModel.getInstance();
@@ -25,7 +24,7 @@
 
         private function deleteClickHandler():void {
             controller.removeItem(itemListLeft.selectedItem);
-            deleteButton.enabled=false;
+            deleteButton.enabled = false;
             refreshButtonsState();
         }
 
@@ -34,13 +33,13 @@
             refreshButtonsState();
         }
 
-        private function refreshButtonsState():void{
-            if(controller.getItemsCount()>0){
-                clearButton.enabled=true;
-                sortButton.enabled=true;
-            }   else{
-                clearButton.enabled=false;
-                sortButton.enabled=false;
+        private function refreshButtonsState():void {
+            if (controller.getItemsCount() > 0) {
+                clearButton.enabled = true;
+                sortButton.enabled = true;
+            } else {
+                clearButton.enabled = false;
+                sortButton.enabled = false;
             }
         }
 
@@ -61,7 +60,6 @@
             }
             itemListLeft.selectedItem = itemListRight.selectedItem;
         }
-
         ]]>
      </mx:Script>
     <mx:HBox>

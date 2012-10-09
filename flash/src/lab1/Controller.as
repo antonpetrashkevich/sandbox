@@ -74,7 +74,7 @@ public class Controller {
         }
 
         model.removeItem(selectedItem);
-        selectedDates[selectedItem.data]=null;
+        selectedDates[selectedItem.data] = null;
 //        selectedDates.splice(selectedItem.data, 1);
     }
 

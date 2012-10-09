@@ -3,7 +3,7 @@
  * Date: 30.09.12
  * Time: 11:16
  */
-package {
+package lab1 {
 import mx.collections.ArrayCollection;
 import mx.collections.Sort;
 import mx.collections.SortField;

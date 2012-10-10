@@ -6,10 +6,6 @@
         import mx.events.CalendarLayoutChangeEvent;
         import mx.events.ListEvent;
 
-        [Bindable]
-        private var model:ListModel = ListModel.getInstance();
-
-
         private var controller:Controller = Controller.getInstance();
 
         private function useDate(event:CalendarLayoutChangeEvent):void {

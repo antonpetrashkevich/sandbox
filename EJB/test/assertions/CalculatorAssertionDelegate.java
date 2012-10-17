@@ -1,4 +1,4 @@
-package test.assertions;
+package assertions;
 
 import calculator.CalculatorCommonBusiness;
 import junit.framework.TestCase;

@@ -4,27 +4,34 @@
     <mx:Script>
         <![CDATA[
         private var controller:Controller = Controller.getInstance();
+
         ]]>
      </mx:Script>
     <mx:VBox>
         <mx:Label text="XML:"/>
-        <mx:TextArea id="xmlContent" width="640" height="240" editable="false"
-                     data="{controller.getDataString()}"></mx:TextArea>
+        <mx:List id="xmlContent" width="640" height="440" editable="false"
+                     dataProvider="{controller.model.xmlData}"></mx:List>
         <mx:HBox>
             <mx:Label text="Square"/>
-            <mx:ComboBox></mx:ComboBox>
-            <mx:TextInput></mx:TextInput>
-            <mx:Button id="selectSquareButton" label="Select"/>
+            <mx:ComboBox
+                    dataProvider="{controller.model.comparisonOperations}"
+                    selectedItem="@{controller.model.selectedOperation}"
+                    width="100%"
+                    ></mx:ComboBox>
+            <mx:TextInput restrict="0-9" text="@{controller.model.selectedSquare}"></mx:TextInput>
+            <mx:Button id="selectSquareButton" click="controller.selectSquareClickHandler(event)" label="Select"/>
         </mx:HBox>
         <mx:HBox>
             <mx:Label text="Type"/>
-            <mx:ComboBox></mx:ComboBox>
-            <mx:Button id="selectTypeButton" label="Select"/>
+            <mx:ComboBox dataProvider="{controller.model.types}"
+                         selectedItem="@{controller.model.selectedType}"></mx:ComboBox>
+            <mx:Button id="selectTypeButton" label="Select" click="controller.selectSquareTypeHandler(event)"/>
         </mx:HBox>
         <mx:Label text="Selection:"/>
-        <mx:TextArea id="XMLout" width="640" height="240" editable="false"></mx:TextArea>
-        <mx:Button id="sendSelectionButton" label="Send Selection"/>
+        <mx:TextArea id="XMLout" width="640" height="240" editable="false" text="@{controller.model.messageToSend}"></mx:TextArea>
+        <mx:Button id="sendSelectionButton" label="Send Selection" click="{controller.sendSelectionClickHandler(event)}"/>
         <mx:Label text="Text another application:"/>
+        <mx:Label text="@{controller.model.externalData}"/>
     </mx:VBox>
 
 </mx:Application>

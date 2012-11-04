@@ -1,0 +1,5 @@
+<settings>
+	<serverName>Lab4Server</serverName>
+	<clientName>Lab4Client</clientName>
+	<recordsPerPage>10</recordsPerPage>
+</settings>

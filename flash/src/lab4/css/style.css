@@ -1,0 +1,63 @@
+@namespace s "library://ns.adobe.com/flex/spark";
+
+.visibleCBStyle
+{
+	selected-down-icon: Embed('assets/visible.PNG');
+	selected-up-icon: Embed('assets/visible.PNG');
+	selected-over-icon: Embed('assets/visible.PNG');
+	down-icon: Embed('assets/invisible.PNG');
+	up-icon: Embed('assets/invisible.PNG');
+	over-icon: Embed('assets/invisible.PNG');
+}
+
+.scrollerStyleRight
+{
+	disabled-icon: Embed(source="assets/Assets.swf",symbol="cal_arrowDisabled");
+	down-icon: Embed(source="assets/Assets.swf",symbol="cal_arrow");
+	over-icon: Embed(source="assets/Assets.swf",symbol="cal_arrow");
+	up-icon: Embed(source="assets/Assets.swf",symbol="cal_arrow");
+	icon: Embed(source="assets/Assets.swf",symbol="cal_arrow");
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 0;
+}
+
+.scrollerStyleLeft
+{
+	disabled-icon: Embed(source="assets/Assets.swf",symbol="cal_backArrowDisabled");
+	down-icon: Embed(source="assets/Assets.swf",symbol="cal_backArrow");
+	over-icon: Embed(source="assets/Assets.swf",symbol="cal_backArrow");
+	up-icon: Embed(source="assets/Assets.swf",symbol="cal_backArrow");
+	icon: Embed(source="assets/Assets.swf",symbol="cal_backArrow");
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 0;
+}
+
+.scrollerStyleDblRight
+{
+	disabled-icon: Embed(source="assets/Assets.swf",symbol="cal_dbl_arrowDisabled");
+	down-icon: Embed(source="assets/Assets.swf",symbol="cal_dbl_arrow");
+	over-icon: Embed(source="assets/Assets.swf",symbol="cal_dbl_arrow");
+	up-icon: Embed(source="assets/Assets.swf",symbol="cal_dbl_arrow");
+	icon: Embed(source="assets/Assets.swf",symbol="cal_dbl_arrow");
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 0;
+}
+
+.scrollerStyleDblLeft
+{
+	disabled-icon: Embed(source="assets/Assets.swf",symbol="cal_dbl_backArrowDisabled");
+	down-icon: Embed(source="assets/Assets.swf",symbol="cal_dbl_backArrow");
+	over-icon: Embed(source="assets/Assets.swf",symbol="cal_dbl_backArrow");
+	up-icon: Embed(source="assets/Assets.swf",symbol="cal_dbl_backArrow");
+	icon: Embed(source="assets/Assets.swf",symbol="cal_dbl_backArrow");
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 0;
+}

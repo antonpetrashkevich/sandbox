@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   minWidth="955" minHeight="600"
+			   xmlns:controllers="controllers.*" creationComplete="application_creationCompleteHandler(event)">	
+	<fx:Style source="css/style.css"/>
+	
+	<fx:Declarations>
+		<controllers:AppController id="controller"/>			
+		
+		<mx:HTTPService id="httpData" url="http://poems4you.ru/flex/request.php" useProxy="false" method="POST"
+						result="httpResultData(event)" fault="httpFaultData(event)">			
+			<mx:request xmlns="">
+				<password>123124</password>
+				<fromRecord>{(controller.model.currentPage - 1) * controller.model.itemsPerPage + 1}</fromRecord>
+				<toRecord>{controller.model.currentPage * controller.model.itemsPerPage}</toRecord>					
+			</mx:request>
+		</mx:HTTPService>
+		
+		<mx:HTTPService id="httpColumns" url="http://poems4you.ru/flex/request.php" useProxy="false" method="POST"
+						result="httpResultColumns(event)" fault="httpFaultColumns(event)">
+			<mx:request xmlns="">
+				<password>123123</password>
+			</mx:request>	
+		</mx:HTTPService>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+        import lab4.custom.CustomDropDownListItem;
+        import lab4.custom.VisibleColumnItemRenderer;
+        import lab4.event.DropDownItemVisibleEvent;
+
+        import mx.collections.ArrayCollection;
+        import mx.collections.IList;
+        import mx.controls.Alert;
+        import mx.controls.dataGridClasses.DataGridColumn;
+        import mx.events.FlexEvent;
+        import mx.rpc.events.FaultEvent;
+        import mx.rpc.events.ResultEvent;
+
+        public static const LOCAL:String = "Local";
+        public static const REMOTE:String = "Remote";
+        public static const XML_URL:String = "settings.xml";
+
+        private var connSender:LocalConnection;
+        private var connReceiver:LocalConnection;
+
+        public var settings:XML;
+
+        protected function application_creationCompleteHandler(event:FlexEvent):void {
+            loadXML();
+            columnsDropDown.addEventListener(DropDownItemVisibleEvent.VISIBLE, changeVisibility);
+        }
+
+
+        private function changeVisibility(event:DropDownItemVisibleEvent):void {
+            var items:IList = columnsDropDown.dataProvider;
+            var item:CustomDropDownListItem = event.item as CustomDropDownListItem;
+            for each (var column:DataGridColumn in grid.columns) {
+                if (column.headerText == item.name) {
+                    column.visible = item.isVisible;
+                }
+            }
+        }
+
+        private function loadXML():void {
+            var request:URLRequest = new URLRequest(XML_URL);
+            var loader:URLLoader = new URLLoader(request);
+            loader.addEventListener(Event.COMPLETE, onXMLLoadComplete);
+        }
+
+        private function onXMLLoadComplete(event:Event):void {
+            settings = new XML(event.target.data);
+            controller.model.itemsPerPage = settings.recordsPerPage.toString();
+            httpColumns.send();
+        }
+
+
+        private function updateData():void {
+            if (controller.model.typeOfConnection == REMOTE) {
+                httpData.send();
+            }
+            else {
+                connSender.send(settings.serverName.toString(), "getRecords", controller.model.currentPage, controller.model.itemsPerPage);
+            }
+        }
+
+        public function httpResultData(event:ResultEvent):void {
+            grid.dataProvider = httpData.lastResult.records.record;
+        }
+
+        public function setRecords(value:Array):void {
+            grid.dataProvider = value;
+        }
+
+        public function httpResultColumns(event:ResultEvent):void {
+            updateMetadata(httpColumns.lastResult.types.type, httpColumns.lastResult.recordsCount);
+        }
+
+        public function updateMetadata(columnsArr, recordsCount):void {
+            controller.model.totalNumberOfRecords = recordsCount;
+            controller.setNumberOfPages(recordsCount);
+
+            var columns:Array = new Array();
+            controller.model.visibleColumnsItems = new ArrayCollection();
+
+            for each (var column:String in columnsArr) {
+                var dgColumn:DataGridColumn = new DataGridColumn();
+                dgColumn.headerText = column;
+                dgColumn.dataField = column;
+                if (column == "Visible") {
+                    dgColumn.itemRenderer = new ClassFactory(VisibleColumnItemRenderer);
+                }
+                columns.push(dgColumn);
+                controller.model.visibleColumnsItems.addItem(new CustomDropDownListItem(column, true));
+            }
+            grid.columns = columns;
+            updateData();
+        }
+
+        public function httpFaultColumns(event:FaultEvent):void {
+            controller.model.typeOfConnection = LOCAL;
+            connSender = new LocalConnection();
+            connSender.addEventListener(StatusEvent.STATUS, onStatus);
+
+            connReceiver = new LocalConnection();
+            connReceiver.allowDomain("*");
+            connReceiver.client = this;
+            try {
+                connReceiver.connect(settings.clientName.toString());
+
+                connSender.send(settings.serverName.toString(), "getMetadata");
+
+            } catch (error:ArgumentError) {
+                Alert.show("Unable to connect");
+            }
+        }
+
+        public function setMetadata(value:Object):void {
+            updateMetadata(value.columns, value.recordsCount);
+        }
+
+        private function onStatus(event:StatusEvent):void {
+            switch (event.level) {
+                case "error":
+                    Alert.show("Unable to send message to Server");
+                    break;
+            }
+        }
+
+
+        public function httpFaultData(event:FaultEvent):void {
+            controller.model.typeOfConnection = LOCAL;
+        }
+
+        public function toFirstPage_handler(event:MouseEvent):void {
+            controller.model.currentPage = 1;
+            updateData();
+        }
+
+        public function toPrevPage_handler(event:MouseEvent):void {
+            --controller.model.currentPage;
+            updateData();
+        }
+
+        public function toNextPage_handler(event:MouseEvent):void {
+            ++controller.model.currentPage;
+            updateData();
+        }
+
+        public function toLastPage_handler(event:MouseEvent):void {
+            controller.model.currentPage = controller.model.numberOfPages;
+            updateData();
+        }
+
+        protected function dropdownlist_valueCommitHandler(event:FlexEvent):void {
+            columnsDropDown.selectedItem = null;
+        }
+        ]]>
+	</fx:Script>
+	
+	<s:layout>	
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<s:HGroup height="100%" width="100%" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5">	
+			
+		<s:VGroup left="0" height="100%" width="100%">					
+			<s:Group width="100%">				
+				<s:HGroup left="0" verticalAlign="middle" height="100%">
+					<s:Label text="Total number of records: {controller.model.totalNumberOfRecords}"/>
+					<s:Label text="Type of connection: {controller.model.typeOfConnection}"/>	
+				</s:HGroup>				
+				
+				<s:DropDownList id="columnsDropDown" right="0" width="180" 
+								prompt="Select visible columns"
+								dataProvider="{controller.model.visibleColumnsItems}"
+								valueCommit="{dropdownlist_valueCommitHandler(event)}"							
+								itemRenderer="lab4.custom.CustomDropDownListItemRenderer"/>
+			</s:Group>
+			
+			<mx:DataGrid id="grid" 				 				
+						 width="100%"
+						 height="100%"
+						 dragEnabled="true"
+						 headerShift="{controller.grid_headerShiftHandler(event)}">				
+			</mx:DataGrid>
+			
+			<s:HGroup id="pagingControls" width="100%" verticalAlign="middle" horizontalAlign="center">				
+				<s:Button styleName="scrollerStyleDblLeft" width="50" 
+						  click="{toFirstPage_handler(event)}" 
+						  enabled="{controller.model.currentPage != 1}"/>
+				<s:Button styleName="scrollerStyleLeft" width="50"
+						  click="{toPrevPage_handler(event)}" 
+						  enabled="{controller.model.currentPage != 1}"/>
+				
+				<s:Label text="{controller.model.currentPage} of {controller.model.numberOfPages}"/>
+				
+				<s:Button styleName="scrollerStyleRight" width="50" 
+						  click="{toNextPage_handler(event)}" 
+						  enabled="{controller.model.currentPage != controller.model.numberOfPages}"/>	
+				<s:Button styleName="scrollerStyleDblRight" width="50" 
+						  click="{toLastPage_handler(event)}" 
+						  enabled="{controller.model.currentPage != controller.model.numberOfPages}"/>							
+			</s:HGroup>
+		
+		</s:VGroup>
+			
+		<s:List width="200" height="100%" 
+				dropEnabled="true" 
+				dragEnter="{controller.list_acceptDropHandler(event)}"
+				dragDrop="{controller.list_dragDropHandler(event)}"/>		
+					
+	</s:HGroup>			
+	
+</s:Application>

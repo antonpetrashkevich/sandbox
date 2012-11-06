@@ -30,8 +30,15 @@ public class Controller {
 
     /*** add a new item into the list model.*/
     public function addNumber(name:String):void {
-        if (dateAlreadyPicked(name))
+        if (dateAlreadyPicked(name)) {
+            var itemId:int = findItemIdByName(name);
+            for each (var object:Object in model.items) {
+                if (object.data == itemId) {
+                    removeItem(object)
+                }
+            }
             return;
+        }
         if (name == null || StringUtil.trim(name).length == 0) {
             trace("emptyname");
         } else {
@@ -41,8 +48,17 @@ public class Controller {
         }
     }
 
+    private function findItemIdByName(name:String):int {
+        for (var i:int = 0; i < selectedDates.length; i++) {
+            var object:Object = selectedDates[i];
+            if (object == name)
+                return i;
+        }
+        return null;
+    }
+
     private function randomizeNumberBasedOnDate(name:String):String {
-        return (uint(Math.random() * 1000)).toString();
+        return (uint(Math.random() * 10)).toString();
     }
 
     private function dateAlreadyPicked(name:String):Boolean {

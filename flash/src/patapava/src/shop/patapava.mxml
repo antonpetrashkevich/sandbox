@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600"
+               xmlns:shop="shop.*"
+               initialize="controller.initialize()"
+               creationComplete="controller.creationCompleteHandler(event)">
+    <fx:Style source="patapava.css"/>
+    <fx:Script>
+		<![CDATA[
+        import flash.filters.GlowFilter;
+
+        import mx.collections.ArrayCollection;
+        import mx.events.DataGridEvent;
+        import mx.events.DragEvent;
+        import mx.events.IndexChangedEvent;
+
+        var data1:ArrayCollection = new ArrayCollection();
+        var data2:ArrayCollection = new ArrayCollection();
+
+        protected function kt_grid_headerShiftHandler(event:IndexChangedEvent):void {
+            if (event.newIndex == 0) {
+                var dg:DataGrid = DataGrid(event.currentTarget);
+                var newColumns:Array = dg.columns;
+
+                var tmpCol:DataGridColumn = newColumns[0];
+                newColumns[0] = newColumns[1];
+                newColumns[1] = tmpCol;
+
+                dg.columns = newColumns;
+            }
+        }
+
+        private function deleteFilters():void {
+            nameBut.filters = [];
+            categoryBut.filters = [];
+            yearBut.filters = [];
+            priceBut.filters = [];
+        }
+
+        protected function kt_grid_headerReleaseHandler(event:DataGridEvent):void {
+
+            var colName:String = (kt_grid.columns[event.columnIndex] as DataGridColumn).headerText;
+
+            switch (colName) {
+                case 'Наименование товара':
+                    deleteFilters();
+                    nameBut.filters = [new GlowFilter(0x000000, .75, 25, 25, 2, 2, false, false)];
+                    break;
+                case 'Категория':
+                    deleteFilters();
+                    categoryBut.filters = [new GlowFilter(0x000000, .75, 25, 25, 2, 2, false, false)];
+                    break;
+                case 'Год создания':
+                    deleteFilters();
+                    yearBut.filters = [new GlowFilter(0x000000, .75, 25, 25, 2, 2, false, false)];
+                    break;
+                case 'Цена':
+                    deleteFilters();
+                    priceBut.filters = [new GlowFilter(0x000000, .75, 25, 25, 2, 2, false, false)];
+                    break;
+            }
+        }
+
+        protected function onDragDrop1(event:DragEvent):void {
+            event.currentTarget.dataProvider = data1;
+
+        }
+
+        protected function onDragDrop2(event:DragEvent):void {
+            event.preventDefault();
+            var item:MyItem = new MyItem(1, null, null, null, 10000);
+            item.setMyItem((event.dragSource.dataForFormat("items") as Array)[0]);
+
+            data2.addItem(new MyBuyItem(item));
+            event.currentTarget.dataProvider = data2;
+        }
+
+        protected function onDrag2Start(event:DragEvent):void {
+            // TODO Auto-generated method stub
+            data1 = controller.model.kt;
+
+        }
+        ]]>
+	</fx:Script>
+    <fx:Declarations>
+        <shop:Controller id="controller"/>
+    </fx:Declarations>
+
+
+    <s:BorderContainer id="border_1" left="5" right="0" top="5" bottom="0" width="20%" height="100%"
+                       backgroundColor="#95B7DD">
+        <s:Label x="12" y="160" text="Сортировать по:" textAlign="center" verticalAlign="bottom"/>
+        <s:Button id="nameBut" x="10" y="185" width="96" label="Названию"/>
+        <s:Button id="categoryBut" x="10" y="214" width="96" label="Категории"/>
+        <s:Button id="yearBut" x="10" y="243" width="96" label="Году издания"/>
+        <s:Button id="priceBut" x="10" y="272" width="96" label="Цене"/>
+
+    </s:BorderContainer>
+    <s:BorderContainer right="0" top="5" width="80%" height="100%" backgroundColor="#95B7DD">
+        <mx:DataGrid id="kt_grid" x="10" y="60" width="742" height="236"
+                     dataProvider="{controller.model.kt}" dragDrop="onDragDrop1(event)"
+                     dragEnabled="true" dropEnabled="true"
+                     headerRelease="kt_grid_headerReleaseHandler(event)"
+                     headerShift="kt_grid_headerShiftHandler(event)">
+            <mx:columns>
+                <mx:DataGridColumn width="70" dataField="Num" draggable="false" headerText="Номер"
+                                   resizable="false" sortable="false"/>
+                <mx:DataGridColumn width="300" dataField="Name" headerText="Наименование товара"/>
+                <mx:DataGridColumn dataField="Category" headerText="Категория"/>
+                <mx:DataGridColumn width="120" dataField="Year" headerText="Год создания"/>
+                <mx:DataGridColumn width="90" dataField="Price" headerText="Цена"/>
+            </mx:columns>
+
+        </mx:DataGrid>
+        <s:Label id="name_grid" y="10" width="219" height="41" fontFamily="Arial" fontSize="18"
+                 fontWeight="bold" horizontalCenter="-150" text="Каталог товаров" textAlign="center"
+                 verticalAlign="bottom"/>
+        <s:Label id="name_grid2" x="366" y="307" width="219" height="41" fontFamily="Arial"
+                 fontSize="18" fontWeight="bold" text="Корзина с покупками" textAlign="center"
+                 verticalAlign="bottom"/>
+        <mx:DataGrid id="buy_grid" x="382" y="356" width="378" height="158"
+                     dragDrop="onDragDrop2(event)" dragEnabled="true" dragStart="onDrag2Start(event)"
+                     dropEnabled="true" variableRowHeight="true">
+            <mx:columns>
+                <mx:DataGridColumn width="70" dataField="Num" headerText="Номер"/>
+                <mx:DataGridColumn dataField="Name_Category" headerText="Название и категория"/>
+                <mx:DataGridColumn width="80" dataField="Price" headerText="Цена"/>
+            </mx:columns>
+
+        </mx:DataGrid>
+    </s:BorderContainer>
+</s:Application>

@@ -67,6 +67,7 @@ public class ListModel {
         var itemIndex:int = _items.getItemIndex(selectedItem);
         _items.removeItemAt(itemIndex);
     }
+
 }
 }
 

@@ -1,4 +1,4 @@
-package shop {
+package patapava.src.shop {
 import mx.collections.ArrayCollection;
 
 public class Model {

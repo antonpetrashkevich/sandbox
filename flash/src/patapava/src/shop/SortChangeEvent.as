@@ -1,6 +1,8 @@
-package shop {
+package patapava.src.shop {
 
 import flash.events.Event;
+
+import lab3.custom.CustomListItem;
 
 public class SortChangeEvent extends Event {
 
@@ -8,7 +10,7 @@ public class SortChangeEvent extends Event {
 
     //private var _data:CustomListItem;
 
-    public function SortChangeEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false)
+    public function SortChangeEvent(type:String, bubbles:Boolean, cancelable:Boolean, data:CustomListItem)
         //,data:CustomListItem=null)
     {
         super(type, bubbles, cancelable);

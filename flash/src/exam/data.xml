@@ -1,0 +1,12 @@
+<flowers>
+    <flower>
+        <id>1</id>
+        <name>Lilly</name>
+        <description>Lilly Description</description>
+    </flower>
+    <flower>
+        <id>1</id>
+        <name>Rose</name>
+        <description>Rose Description</description>
+    </flower>
+</flowers>

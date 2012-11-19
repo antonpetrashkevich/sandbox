@@ -1,4 +1,4 @@
-package shop {
+package patapava.src.shop {
 
 public class MyItem {
     public var Num:int;

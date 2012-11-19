@@ -2,7 +2,7 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
                xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600"
-               xmlns:shop="shop.*"
+               xmlns:shop="patapava.src.shop.*"
                initialize="controller.initialize()"
                creationComplete="controller.creationCompleteHandler(event)">
     <fx:Style source="patapava.css"/>
@@ -17,6 +17,8 @@
 
         var data1:ArrayCollection = new ArrayCollection();
         var data2:ArrayCollection = new ArrayCollection();
+
+        var controller:Controller = Controller.getInstance();
 
         protected function kt_grid_headerShiftHandler(event:IndexChangedEvent):void {
             if (event.newIndex == 0) {
@@ -83,9 +85,6 @@
         }
         ]]>
 	</fx:Script>
-    <fx:Declarations>
-        <shop:Controller id="controller"/>
-    </fx:Declarations>
 
 
     <s:BorderContainer id="border_1" left="5" right="0" top="5" bottom="0" width="20%" height="100%"

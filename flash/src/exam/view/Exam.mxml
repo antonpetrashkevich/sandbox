@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+                xmlns:mx="library://ns.adobe.com/flex/mx"
+                xmlns:controller="exam.controller.*">
+
+
+    <fx:Script><![CDATA[
+        private function sortButtonClickHandler():void {
+            controller.sort();
+        }
+        ]]></fx:Script>
+
+    <fx:Declarations>
+        <controller:Controller id="controller"></controller:Controller>
+    </fx:Declarations>
+
+    <mx:Button label="Sort" id="sortButton" click="sortButtonClickHandler()"></mx:Button>
+
+    <mx:DataGrid>
+        <mx:columns>
+            <mx:DataGridColumn dataField="num" draggable="true" resizable="true" sortable="false"
+                               headerText="Index"></mx:DataGridColumn>
+            <mx:DataGridColumn dataField="num" draggable="true" resizable="true" sortable="false"
+                               headerText="Name"></mx:DataGridColumn>
+            <mx:DataGridColumn dataField="num" draggable="true" resizable="true" sortable="false"
+                               headerText="Description"></mx:DataGridColumn>
+        </mx:columns>
+    </mx:DataGrid>
+
+    <mx:DataGrid>
+        <mx:columns>
+            <mx:DataGridColumn dataField="num" draggable="true" resizable="true" sortable="false"
+                               headerText="Index"></mx:DataGridColumn>
+            <mx:DataGridColumn dataField="num" draggable="true" resizable="true" sortable="false"
+                               headerText="Expanded Description" width="300"></mx:DataGridColumn>
+        </mx:columns>
+    </mx:DataGrid>
+
+</mx:Application>

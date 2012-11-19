@@ -1,4 +1,4 @@
-package shop {
+package patapava.src.shop {
 import flash.events.Event;
 import flash.net.URLLoader;
 import flash.net.URLRequest;
@@ -7,6 +7,15 @@ import mx.events.FlexEvent;
 
 public class Controller {
     public var model:Model = new Model();
+
+    private static var instance:Controller;
+
+    public static function getInstance():Controller {
+        if (instance == null) {
+            instance = new Controller();
+        }
+        return instance;
+    }
 
     public function Controller() {
     }

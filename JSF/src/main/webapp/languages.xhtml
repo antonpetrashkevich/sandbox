@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: Anton
+  Date: 21.11.12
+  Time: 13:49
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xsi:schemaLocation="http://java.sun.com/jsf/html "
+        >
+
+<h:head>
+    <title>Choose your favoirite programming language</title>
+</h:head>
+
+<h:body>
+    <h2>Languages</h2>
+    <h:form>
+        Favorite Language:<h:inputText value="#{languagesBean.favoriteLanguage}" label="label1"/>
+        <h:commandButton label="Choose" value="value Choose" action="#{languagesBean.selectLanguage}"/>
+    </h:form>
+</h:body>
+
+</html>

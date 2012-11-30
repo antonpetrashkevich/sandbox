@@ -4,8 +4,10 @@ import com.lookup.LookupBean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @ManagedBean(name = "registrationBean")
+@RequestScoped
 public class RegistrationBean {
 
     @ManagedProperty(value = "#{lookupBean}")
@@ -24,6 +27,8 @@ public class RegistrationBean {
     private String firstName;
     private String lastName;
     private String fullName;
+
+    private String bodyClass = LookupBean.NORMAL;
 
     public String getFirstName() {
         return firstName;
@@ -64,5 +69,17 @@ public class RegistrationBean {
 
     public void setLookupBean(LookupBean lookupBean) {
         this.lookupBean = lookupBean;
+    }
+
+    public void changeFontSize(ActionEvent event) {
+        bodyClass = lookupBean.changeBodyStyle();
+    }
+
+    public String getBodyClass() {
+        return bodyClass;
+    }
+
+    public void setBodyClass(String bodyClass) {
+        this.bodyClass = bodyClass;
     }
 }

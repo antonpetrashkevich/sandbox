@@ -15,9 +15,10 @@
 
     <h:head>
         <title>Registration page</title>
+        <link href="./css/common.css" rel="stylesheet" type="text/css"/>
     </h:head>
 
-    <h:body>
+    <h:body styleClass="#{registrationBean.bodyClass}">
         <h2>Please fill and submit the form</h2>
         <h:form title="Registration title" style="border: thick solid #006400; ">
             <div style="margin-top: 10px;"><span>#{msgs.firstNamePrompt}:</span><h:inputText
@@ -26,6 +27,8 @@
                     value="#{registrationBean.lastName}" style="margin-left: 15px;"/></div>
 
             <h:commandButton value="Register" action="#{registrationBean.registerUser}"/>
+            <h:commandButton value="Change Font Size" actionListener="#{registrationBean.changeFontSize}"
+                             immediate="true"/>
         </h:form>
     </h:body>
 </f:view>

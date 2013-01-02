@@ -1,25 +1,32 @@
-<project>
+<project name="Hello World">
+
+    <property name="build.classes" value="build/classes"/>
+    <property name="build.jar" value="build/jar"/>
+
     <target name="clean">
         <delete dir="build"/>
     </target>
 
     <target name="compile">
-        <mkdir dir="build/classes"/>
-        <javac srcdir="src" destdir="build/classes"/>
+        <mkdir dir="${build.classes}"/>
+        <javac srcdir="src" destdir="${build.classes}"/>
     </target>
 
-    <target name="jar">
-        <mkdir dir="build/jar"/>
-        <jar destfile="build/jar/HelloWorld.jar" basedir="build/classes">
+    <target name="jar" depends="compile">
+        <mkdir dir="${build.jar}"/>
+        <jar destfile="${build.jar}/${ant.project.name}.jar" basedir="${build.classes}">
             <manifest>
                 <attribute name="Main-Class" value="com.mypackage.HelloWorld"/>
             </manifest>
         </jar>
     </target>
 
-    <target name="run">
-        <java jar="build/jar/HelloWorld.jar" fork="true"/>
+    <target name="run" depends="jar">
+        <java jar="${build.jar}/${ant.project.name}.jar" fork="true"/>
     </target>
+
+    <target name="clean-jar" depends="clean,jar"/>
+    <target name="clean-run" depends="clean,run"/>
 
 
 </project>

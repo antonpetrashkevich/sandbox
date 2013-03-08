@@ -10,7 +10,12 @@
   <component name="FacetManager">
     <facet type="gwt" name="GWT">
       <configuration>
+        <setting name="compilerMaxHeapSize" value="256" />
+        <setting name="gwtScriptOutputStyle" value="DETAILED" />
         <setting name="gwtSdkUrl" value="file://D:/Applications/GWT/gwt-2.5.0" />
+        <packaging>
+          <module name="HWGdxGame" enabled="false" />
+        </packaging>
       </configuration>
     </facet>
   </component>

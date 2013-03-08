@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="gdx.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/../hw-gdx/libs/gdx-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/HWGdxGame/hw-gdx/libs/gdx-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/HWGdxGame/hw-gdx/libs/gdx.jar!/"/>
+	</lib>
+	<lib name="gdx-backend-android.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/libs/gdx-backend-android-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/HWGdxGame/hw-gdx-android/libs/gdx-backend-android-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/HWGdxGame/hw-gdx-android/libs/gdx-backend-android.jar!/"/>
+	</lib>
+	<lib name="tween-engine-api.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/../hw-gdx/libs/tween-engine-api-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/HWGdxGame/hw-gdx/libs/tween-engine-api-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/HWGdxGame/hw-gdx/libs/tween-engine-api.jar!/"/>
+	</lib>
+</component>

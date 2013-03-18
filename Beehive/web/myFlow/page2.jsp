@@ -12,9 +12,14 @@
         <p>
             <netui:form action="processData">
                 Name: <netui:textBox dataSource="actionForm.name"/>
+                <netui:error key="name"/>
                 <br/>
                 Age: <netui:textBox dataSource="actionForm.age"/>
+                <netui:error key="age"/>
                 <br/>
+                Sport: <netui:textBox dataSource="actionForm.sport"/>
+                <br/>
+                <netui:button type="submit" action="getSport" value="Select Sport"/>
                 <netui:button type="submit" value="Submit"/>
             </netui:form>
         </p>

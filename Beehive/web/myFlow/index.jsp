@@ -15,5 +15,10 @@
             <netui:anchor action="toPage2">Link to page2.jsp</netui:anchor>
         </p>
 
+        <netui:anchor action="shared.showHelp" popup="true">Help
+            <netui:configurePopup location="false" width="550" height="150">
+            </netui:configurePopup>
+        </netui:anchor>
+
     </netui:body>
 </netui:html>

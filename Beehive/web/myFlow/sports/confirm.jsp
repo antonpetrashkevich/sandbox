@@ -2,21 +2,18 @@
 <%@ taglib uri="http://beehive.apache.org/netui/tags-html-1.0" prefix="netui"%>
 <netui:html>
     <head>
-        <title>displayData.jsp</title>
+        <title>Confirm Sport Activity</title>
         <netui:base/>
     </head>
     <netui:body>
         <p>
-            You submitted the following information:
+            Confirm Sport Activity
         </p>
         <p>
-            Name: ${pageInput.name}
-            <br/>
-            Age: ${pageInput.age}
-            <br/>
-            Message: ${pageInput.message}
-            <br/>
-            Sport: ${pageInput.sport}
+            Sport: ${pageFlow.selectedSport}
         </p>
+        <netui:form action="confirm">
+            <netui:button type="submit" value="Confirm"/>
+        </netui:form>
     </netui:body>
 </netui:html>

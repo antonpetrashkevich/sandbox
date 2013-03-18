@@ -7,7 +7,8 @@
     </head>
     <netui:body>
         <p>
-            New Web Application Page ~~~_~~~
+            New Web Application Page
+            Ror!!!
         </p>
     </netui:body>
 </netui:html>

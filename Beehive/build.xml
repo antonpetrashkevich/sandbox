@@ -132,4 +132,6 @@ Once the webapp is built, it's ready to deploy onto your application container.
         </java>
     </target>
 
+    <target name="clean build war" depends="clean, build, war" />
+
 </project>

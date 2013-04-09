@@ -19,6 +19,7 @@ public class Main {
             List<RoamingRef> roamingRefs = parseRoamingRefs(entries);
 
             String resultInsertString = formResultSQLInsertString(roamingRefs);
+            System.out.println(resultInsertString);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -32,7 +33,12 @@ public class Main {
         for (String[] entry : entries) {
             List<String> prefixes = differentPrefixes(entry[2]);
             for (String prefix : prefixes) {
+                boolean alreadyContainsSuchPrefixAndCountryCodePair = Utils.findByPrefixAndCountryCodePair(result, prefix, entry[1])!=null;
+                if(!alreadyContainsSuchPrefixAndCountryCodePair)       {
                 result.add(new RoamingRef(entry[1], prefix, entry[0]));
+                }else {
+                    System.out.println(new RoamingRef(entry[1], prefix, entry[0]).toString());
+                }
             }
 
         }
@@ -44,15 +50,15 @@ public class Main {
 
         if (prefixes.matches("[\\d]+")) {
             result.add(prefixes);
-        } else if (prefixes.matches("[\\s]*[\\d]+[\\s]*-[\\s]*[\\d]+[\\s]*")) {
+        }/* else if (prefixes.matches("[\\s]*[\\d]+[\\s]*-[\\s]*[\\d]+[\\s]*")) {
             String[] bounds = prefixes.replaceAll("[\\s]", "").split("[\\s-]");
             int lowerBound = Integer.valueOf(bounds[0]);
             int upperBound = Integer.valueOf(bounds[1]);
             for (int i = lowerBound; i <= upperBound; i++) {
                 result.add(String.valueOf(i));
             }
-        } else {
-            System.out.println(prefixes);
+        }*/ else {
+//            System.out.println(prefixes);
         }
 
         return result;
@@ -61,7 +67,7 @@ public class Main {
     private static String formResultSQLInsertString(List<RoamingRef> roamingRefs) {
         StringBuilder result = new StringBuilder("INSERT ALL\n");
         for (RoamingRef roamingRef : roamingRefs) {
-            result.append("into CCBO_ROAMING_CALLBACK_TEST " + roamingRef.sqlRepresentation() + "\n");
+            result.append("into CCBO_ROAMING_CALLBACK_TEST (COUNTRY_CODE, PREFIX, ROAMING_PARTNER) VALUES" + roamingRef.sqlRepresentation() + "\n");
         }
         result.append("SELECT * FROM dual;");
         return result.toString();

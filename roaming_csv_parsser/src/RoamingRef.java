@@ -41,4 +41,13 @@ public class RoamingRef {
     public String sqlRepresentation() {
         return "('" + getCountryCode() + "', '" + getPrefix() + "', '" + getRoamingPartner() + "')";
     }
+
+    @Override
+    public String toString() {
+        return "RoamingRef{" +
+                "countryCode='" + countryCode + '\'' +
+                ", prefix='" + prefix + '\'' +
+                ", roamingPartner='" + roamingPartner + '\'' +
+                '}';
+    }
 }

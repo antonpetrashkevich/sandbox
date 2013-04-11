@@ -8,11 +8,23 @@ public class Main {
 
         long startTime = System.currentTimeMillis();
 
-        Thread excessiveCPUThread = new Thread(new ExcessiveCPURunnable());
-        excessiveCPUThread.start();
+        Thread excessiveCPUThread1 = new Thread(new ExcessiveCPURunnable());
+        Thread excessiveCPUThread2 = new Thread(new ExcessiveCPURunnable());
+        Thread excessiveCPUThread3 = new Thread(new ExcessiveCPURunnable());
+        Thread excessiveCPUThread4 = new Thread(new ExcessiveCPURunnable());
+        Thread excessiveCPUThread5 = new Thread(new ExcessiveCPURunnable());
+        excessiveCPUThread1.start();
+        excessiveCPUThread2.start();
+        excessiveCPUThread3.start();
+        excessiveCPUThread4.start();
+        excessiveCPUThread5.start();
 
         try {
-            excessiveCPUThread.join();
+            excessiveCPUThread1.join();
+            excessiveCPUThread2.join();
+            excessiveCPUThread3.join();
+            excessiveCPUThread4.join();
+            excessiveCPUThread5.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

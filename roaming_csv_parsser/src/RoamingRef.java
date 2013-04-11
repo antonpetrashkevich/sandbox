@@ -50,4 +50,24 @@ public class RoamingRef {
                 ", roamingPartner='" + roamingPartner + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RoamingRef that = (RoamingRef) o;
+
+        if (!countryCode.equals(that.countryCode)) return false;
+        if (!prefix.equals(that.prefix)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = countryCode.hashCode();
+        result = 31 * result + prefix.hashCode();
+        return result;
+    }
 }

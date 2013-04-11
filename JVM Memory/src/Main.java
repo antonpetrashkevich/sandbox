@@ -5,14 +5,20 @@
  */
 public class Main {
     public static void main(String[] args) {
-        while(true){
-            System.out.println("Hello World");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
+        long startTime = System.currentTimeMillis();
+
+        Thread excessiveCPUThread = new Thread(new ExcessiveCPURunnable());
+        excessiveCPUThread.start();
+
+        try {
+            excessiveCPUThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        System.out.println("Time spent: " + (System.currentTimeMillis() - startTime));
 
     }
+
+
 }

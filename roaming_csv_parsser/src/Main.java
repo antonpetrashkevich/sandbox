@@ -1,7 +1,13 @@
 import au.com.bytecode.opencsv.CSVReader;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * User: APetrashkevich
@@ -11,6 +17,7 @@ import java.util.*;
 public class Main {
 
     public static final int INSERTS_PER_BATCH = 300;
+    public static final int MAX_PREFIXES_DIAPASON = 100;
 
     public static void main(String[] args) {
         try {
@@ -36,11 +43,11 @@ public class Main {
             prefixes.clear();
             prefixes = differentPrefixes(entry[2]);
             for (String prefix : prefixes) {
-//                boolean alreadyContainsSuchPrefixAndCountryCodePair = Utils.findByPrefixAndCountryCodePair(result, prefix, entry[1])!=null;
+
                 RoamingRef roamingRef = new RoamingRef(entry[1], prefix, entry[0]);
-                if(!result.contains(roamingRef))       {
-                result.add(roamingRef);
-                }else {
+                if (!result.contains(roamingRef)) {
+                    result.add(roamingRef);
+                } else {
                     System.out.println(roamingRef.toString());
                 }
             }
@@ -58,8 +65,12 @@ public class Main {
             String[] bounds = prefixes.replaceAll("[\\s]", "").split("[\\s-]");
             long lowerBound = Long.valueOf(bounds[0]);
             long upperBound = Long.valueOf(bounds[1]);
-            for (long i = lowerBound; i <= upperBound; i++) {
-                result.add(String.valueOf(i));
+            if (upperBound - lowerBound > MAX_PREFIXES_DIAPASON) {
+                result.add(String.valueOf(firstMatchingDigits(lowerBound,upperBound)));
+            } else {
+                for (long i = lowerBound; i <= upperBound; i++) {
+                    result.add(String.valueOf(i));
+                }
             }
         } else {
 //            System.out.println(prefixes);
@@ -68,8 +79,17 @@ public class Main {
         return result;
     }
 
+    private static long firstMatchingDigits(long lowerBound, long upperBound) {
+        int diffLength = String.valueOf(upperBound - lowerBound).length();
+        long result = lowerBound;
+        for (int i = 0; i < diffLength; i++) {
+            result=result/10;
+        }
+        return result;
+    }
+
     private static void printResultSQLInsertString(Set<RoamingRef> roamingRefs) {
-        int insertedInBatch=0;
+        int insertedInBatch = 0;
 
 //        PrintStream out = System.out;
 
@@ -83,8 +103,8 @@ public class Main {
         for (RoamingRef roamingRef : roamingRefs) {
             out.println("into CCBO_ROAMING_CALLBACK_TEST (COUNTRY_CODE, PREFIX, ROAMING_PARTNER) VALUES" + roamingRef.sqlRepresentation());
             insertedInBatch++;
-            if(insertedInBatch== INSERTS_PER_BATCH){
-                insertedInBatch=0;
+            if (insertedInBatch == INSERTS_PER_BATCH) {
+                insertedInBatch = 0;
                 out.println("SELECT * FROM dual;");
                 out.println("INSERT ALL");
             }

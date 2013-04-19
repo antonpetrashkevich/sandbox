@@ -1,3 +1,5 @@
+import memory.ExcessiveMemoryRunnable;
+
 /**
  * User: APetrashkevich
  * Date: 02.04.13
@@ -8,6 +10,30 @@ public class Main {
 
         long startTime = System.currentTimeMillis();
 
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+//        stressCPU();
+        stressMemory();
+        System.out.println("Time spent: " + (System.currentTimeMillis() - startTime));
+
+    }
+
+    private static void stressMemory() {
+        Thread excessiveMemoryThread1 = new Thread(new ExcessiveMemoryRunnable());
+        excessiveMemoryThread1.start();
+        try {
+            excessiveMemoryThread1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void stressCPU() {
         Thread excessiveCPUThread1 = new Thread(new ExcessiveCPURunnable());
         Thread excessiveCPUThread2 = new Thread(new ExcessiveCPURunnable());
         Thread excessiveCPUThread3 = new Thread(new ExcessiveCPURunnable());
@@ -19,6 +45,7 @@ public class Main {
         excessiveCPUThread4.start();
         excessiveCPUThread5.start();
 
+
         try {
             excessiveCPUThread1.join();
             excessiveCPUThread2.join();
@@ -28,8 +55,6 @@ public class Main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Time spent: " + (System.currentTimeMillis() - startTime));
-
     }
 
 

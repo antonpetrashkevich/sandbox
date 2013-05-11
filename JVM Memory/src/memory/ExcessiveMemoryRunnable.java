@@ -1,5 +1,6 @@
 package memory;
 
+import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +18,12 @@ public class ExcessiveMemoryRunnable implements Runnable {
         int sum = 1;
         while (sum < Integer.MAX_VALUE / 10) {
             sum += 1;
-            memoryConsumingMap.add(MemoryLeakFactory.randomMemoryLeakBean());
+            memoryConsumingMap.add(new WeakReference<MemoryLeakBean>(MemoryLeakFactory.randomMemoryLeakBean()).get());
+            /*try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
         }
     }
 }

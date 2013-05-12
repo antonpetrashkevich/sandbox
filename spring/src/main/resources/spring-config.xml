@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+       default-init-method="init">
+    <context:annotation-config/>
+    <context:component-scan base-package="foo.bar"/>
+
+    <bean id="defaultMessageService" class="foo.bar.messaging.DefaultMessageService" autowire="constructor"
+          init-method="init" destroy-method="cleanUp">
+        <!--<property name="defaultMessage" value="Default Message"/>-->
+        <!--
+                <constructor-arg value="Default Message"/>-->
+    </bean>
+
+    <bean id="defaultMessage" class="java.lang.String">
+        <constructor-arg value="Default Message"/>
+    </bean>
+
+
+    <bean id="customMessageService" class="foo.bar.messaging.CustomMessageService">
+        <property name="customMessages">
+            <!-- <list>
+                 <value>Hello World!</value>
+                 <value>Bye Bye Now!</value>
+                 <value>Ro Ro Ro!</value>
+
+                 <ref bean="helloString"/>
+             </list>-->
+
+            <ref bean="helloListExtended"/>
+        </property>
+    </bean>
+
+    <bean id="helloList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <value>${hello}</value>
+                <value>Ro Ro Ro!</value>
+                <ref bean="helloString"/>
+                <bean class="java.lang.String">
+                    <constructor-arg>
+                        <value>Gutten Morgen!</value>
+                    </constructor-arg>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="helloListExtended" class="java.util.ArrayList" parent="helloList"/>
+
+    <bean id="helloString" name="helloStringName" class="java.lang.String">
+        <qualifier value="default"/>
+        <constructor-arg value="Hello String"/>
+    </bean>
+
+    <bean class="foo.bar.processors.MyBeanPostProcessor"/>
+    <bean class="foo.bar.processors.MyBeanFactoryPostProcessor"/>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" value="classpath:hellomessages.properties"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>hellomessages</value>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

@@ -69,5 +69,13 @@
         </property>
     </bean>
 
+    <bean id="circle" class="foo.bar.aop.model.Circle">
+        <property name="name" value="circle name"/>
+    </bean>
+
+    <bean id="triangle" class="foo.bar.aop.model.Triangle">
+        <property name="name" value="triangle name"/>
+    </bean>
+
 
 </beans>

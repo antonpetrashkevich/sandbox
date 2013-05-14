@@ -1,6 +1,7 @@
 package foo.bar.aop.model;
 
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * User: Anton
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Required;
  */
 public class Circle extends Shape {
 
+
+    @Value("#{hellomessages.hello}")
+    private String helloMessage;
 
     private String name;
 

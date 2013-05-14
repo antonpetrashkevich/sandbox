@@ -11,9 +11,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ShapeApp {
     public static void main(String[] args) {
-        AbstractApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+        AbstractApplicationContext context = new ClassPathXmlApplicationContext("spring-aop-config.xml");
         ShapeService shapeService = (ShapeService) context.getBean("ss");
 
-        shapeService.getCircle().printName();
+//        shapeService.getCircle().printName();
+        shapeService.getCircle().printShapesName(shapeService.getTriangle());
     }
 }

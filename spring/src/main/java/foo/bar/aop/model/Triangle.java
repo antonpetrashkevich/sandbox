@@ -17,4 +17,11 @@ public class Triangle extends Shape {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Triangle{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
